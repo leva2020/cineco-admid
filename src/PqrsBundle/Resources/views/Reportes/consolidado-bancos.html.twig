@@ -1,0 +1,92 @@
+{% extends 'PqrsBundle::base.html.twig' %}
+{% block title %}Reportes Consolidado Bancos{% endblock%}
+{% block body %}
+    <div class="reportes-pqrs consolidados">
+        <legend>Reportes Consolidado Bancos</legend>
+        {{ form(form) }}
+        
+        <div class="boton-exportar">
+            {% if 'EXPORTAR' in permisos %}
+                <a class="pull-right btn ss" href="{{ path('reporte_archivo_consolidado_bancos', {'filtros': filtros }) }}">Exportar</a>
+            {% endif %}
+        </div>
+        <table class="table table-hover">
+            <tr>
+                <td>Nombre Teatro</td>
+                <td>Entidad Financiera</td>
+                <td>Transacciones Ventas</td>
+                <td>Total Ventas</td>
+                <td>Transacciones Reservas</td>
+                <td>Total Reservas</td>
+                <td>Transacción Exhibición</td>
+                <td>Total Exhibición</td>
+            </tr>
+            {% for mult in lista_mult %}
+                {% if mult in reporte|keys %}
+                    <div id="ran_{{ mult }}">
+                        <tr>
+                            <td>
+                                <a onclick="desplega_dato('metodo_{{ mult }}', {{ mult}});">{{ reporte[mult]['info'].multiplex }}</a>
+                            </td>
+                            <td></td>
+                            <td>{{ reporte[mult]['info']['totales']['transaccion_ventas'] }}</td>
+                            <td>{{ reporte[mult]['info']['totales']['total_ventas'] }}</td>
+                            <td>{{ reporte[mult]['info']['totales']['transaccion_reserva'] }}</td>
+                            <td>{{ reporte[mult]['info']['totales']['total_reservas'] }}</td>
+                            <td>{{ reporte[mult]['info']['totales']['total_tran'] }}</td>
+                            <td>{{ reporte[mult]['info']['totales']['total_ingre'] }}</td>
+                        </tr>
+                        
+                        {% for list_entidades in listado_ids_entidades %}
+                            {#{{dump(list_entidades)}}#}
+                            {% if list_entidades in reporte[mult]['det']|keys %}
+                                <tr style="display:none" class="nivel_0_{{ mult}} metodo_{{ mult }}">
+                                    <td></td>
+                                    <td>
+                                        <a onclick="desplega_dato('entidad_{{ list_entidades }}_{{ mult }}', {{ mult}});">
+                                           {{ reporte[mult]['det'][list_entidades].entidad }}
+                                        </a>
+                                    </td>
+                                    {% set det_ventas = '0' %}
+                                    {% set det_total_ventas = '0' %}
+                                    {% set det_reserva = '0' %}
+                                    {% set det_reservas = '0' %}
+                                    {% set det_tran = '0' %}
+                                    {% set det_ingre = '0' %}
+                                    {% for detalle in reporte[mult]['det'][list_entidades]['detalle'] %}
+                                        {% set det_ventas = det_ventas + detalle.detalle.transaccion_ventas %}
+                                        {% set det_total_ventas = det_total_ventas + detalle.detalle.total_ventas_sin %}
+                                        {% set det_reserva = det_reserva + detalle.detalle.transaccion_reserva %}
+                                        {% set det_reservas = det_reservas + detalle.detalle.total_reservas_sin %}
+                                        {% set det_tran = det_tran + detalle.detalle.total_tran %}
+                                        {% set det_ingre = det_ingre + detalle.detalle.total_ingre_sin %}
+                                        
+                                    {% endfor %}   
+                                    
+                                    <td>{{ det_ventas }}</td><td>{{ det_total_ventas|number_format(2, '.', ',') }}</td><td>{{ det_reserva }}</td><td>{{ det_reservas|number_format(2, '.', ',') }}</td><td>{{ det_tran }}</td><td>{{ det_ingre|number_format(2, '.', ',') }}</td>
+                                </tr>
+                                {% for detalle in reporte[mult]['det'][list_entidades]['detalle'] %}
+                                    <tr style="display:none" class="nivel_1_{{ mult}} entidad_{{ list_entidades }}_{{ mult }}">
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ detalle.detalle.transaccion_ventas }}</td>
+                                        <td>{{ detalle.detalle.total_ventas }}</td>
+                                        <td>{{ detalle.detalle.transaccion_reserva }}</td>
+                                        <td>{{ detalle.detalle.total_reservas }}</td>
+                                        <td>{{ detalle.detalle.total_tran }}</td>                                                
+                                        <td>{{ detalle.detalle.total_ingre }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </div> 
+                {% endif %}
+            {% endfor %} 
+        </table>
+    </div>
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div style="position: relative; padding-top: 50px;" class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% endblock %}

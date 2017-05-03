@@ -1,0 +1,94 @@
+pqrs_home:
+    path:      /
+    defaults:  { _controller: PqrsBundle:Pqrs:index }
+  
+pqrs_detalle:
+    path:      /detalle-pqrs/{id}
+    defaults:  { _controller: PqrsBundle:DetallePqrs:index }
+    
+pqrs_respuesta:
+    path:      /respuesta-pqrs/{id}
+    defaults:  { _controller: PqrsBundle:Respuesta:index }
+
+pqrs_respuesta_detalle:
+    path:      /detalle-respuesta-pqrs/{id}
+    defaults:  { _controller: PqrsBundle:RespuestaDetalle:index }
+
+pqrs_respuesta_detalle_editar:
+    path:      /editar-respuesta-pqrs/{id}
+    defaults:  { _controller: PqrsBundle:RespuestaDetalle:editar }
+    
+obtenerpqrs:
+        pattern:  /register/pqrs/datos.json
+        defaults: { _controller: PqrsBundle:ObtenerPqrs:index, _format: json, _locale: en}
+        requirements:
+          _method:  POST
+          _format: JSON
+
+pqrs_alertas:
+    path:      /alertas-pqrs
+    defaults:  { _controller: PqrsBundle:AlertasPqrs:index }
+
+login:
+    pattern:   /login
+    defaults:  { _controller: PqrsBundle:Sesion:login }
+    
+cambio_clave:
+    pattern:   /cambio-clave
+    defaults:  { _controller: PqrsBundle:Sesion:password }
+
+logout_sesion:
+    pattern:   /logout-sesion
+    defaults:  { _controller: PqrsBundle:Sesion:logout }
+    
+reporte_pqrs:
+    path:      /reporte-pqrs
+    defaults:  { _controller: PqrsBundle:ReportesPqrs:index }
+
+reporte_archivo_pqrs:
+    path:      /reporte-pqrs-archivo/{filtros}
+    defaults:  { _controller: PqrsBundle:ReportesPqrs:generar }
+    
+reporte_pqrs_fechas:
+    path:      /reporte-pqrs-respuestas
+    defaults:  { _controller: PqrsBundle:ReportesPqrsFechas:index }
+   
+reporte_archivo_pqrs_fechas:
+    path:      /reporte-pqrs-archivo-fechas/{filtros}
+    defaults:  { _controller: PqrsBundle:ReportesPqrsFechas:generar }
+    
+reporte_ventas_diarias:
+    path:      /reporte-ventas-diarias
+    defaults:  { _controller: PqrsBundle:ReportesVentasDiarias:index }
+    
+reporte_archivo_ventas_diarias:
+    path:      /reporte-ventas_diarias-archivo/{filtros}
+    defaults:  { _controller: PqrsBundle:ReportesVentasDiarias:generar }
+
+reporte_transacciones_banco:
+    path:      /reporte-transacciones-banco
+    defaults:  { _controller: PqrsBundle:ReportesTransaccionesBanco:index }
+    
+reporte_archivo_transacciones_banco:
+    path:      /reporte-transacciones-banco-archivo/{filtros}
+    defaults:  { _controller: PqrsBundle:ReportesTransaccionesBanco:generar }
+
+reporte_consolidado_banco:
+    path:      /reporte-consolidado-banco
+    defaults:  { _controller: PqrsBundle:ReportesConsolidadoBancos:index }
+    
+reporte_archivo_consolidado_bancos:
+    path:      /reporte-consolidado-bancos-archivo/{filtros}
+    defaults:  { _controller: PqrsBundle:ReportesConsolidadoBancos:generar }
+
+reporte_transacciones_devoluciones:
+    path:      /reporte-transacciones-devoluciones
+    defaults:  { _controller: PqrsBundle:ReportesTransaccionesDevoluciones:index }
+    
+reporte_archivo_transacciones_devoluciones:
+    path:      /reporte-transacciones-devoluciones-archivo/{filtros}
+    defaults:  { _controller: PqrsBundle:ReportesTransaccionesDevoluciones:generar }
+
+cierre_fecha_transacciones:
+    path:      /cierre-fecha
+    defaults:  { _controller: PqrsBundle:CierreFecha:cierre }

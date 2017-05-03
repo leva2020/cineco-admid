@@ -1,0 +1,99 @@
+services:
+    sonata.admin.usuario:
+        class: PqrsBundle\Admin\UsuarioAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Crear Usuario" }
+        arguments:
+            - ~
+            - PqrsBundle\Entity\Usuario
+            - ~
+        calls:
+            - [ setTranslationDomain, [PqrsBundle]]
+
+    sonata.admin.area:
+        class: PqrsBundle\Admin\AreaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Crear Area" }
+        arguments:
+            - ~
+            - PqrsBundle\Entity\Area
+            - ~
+        calls:
+            - [ setTranslationDomain, [PqrsBundle]]
+
+    sonata.admin.roles:
+        class: PqrsBundle\Admin\RolesAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Crear Roles" }
+        arguments:
+            - ~
+            - PqrsBundle\Entity\Roles
+            - ~
+        calls:
+            - [ setTranslationDomain, [PqrsBundle]]
+
+    sonata.admin.permisos:
+        class: PqrsBundle\Admin\PermisosAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Crear Permisos" }
+        arguments:
+            - ~
+            - PqrsBundle\Entity\Permisos
+            - ~
+        calls:
+            - [ setTranslationDomain, [PqrsBundle]]
+       
+    sonata.admin.portal:
+        class: PqrsBundle\Admin\PortalAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Crear Portal" }
+        arguments:
+            - ~
+            - PqrsBundle\Entity\Portal
+            - ~
+        calls:
+            - [ setTranslationDomain, [PqrsBundle]]
+            
+    sonata.admin.variablesglobales:
+        class: PqrsBundle\Admin\VariablesGlobalesAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Crear Variables Globales" }
+        arguments:
+            - ~
+            - PqrsBundle\Entity\VariablesGlobales
+            - ~
+        calls:
+            - [ setTranslationDomain, [PqrsBundle]]
+            
+    sonata.admin.copias:
+        class: PqrsBundle\Admin\CopiasAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Ingresar correos para copias" }
+        arguments:
+            - ~
+            - PqrsBundle\Entity\Copias
+            - ~
+        calls:
+            - [ setTranslationDomain, [PqrsBundle]]
+            
+    sonata.admin.causas:
+        class: PqrsBundle\Admin\CausasAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Ingresar causas" }
+        arguments:
+            - ~
+            - PqrsBundle\Entity\Causas
+            - ~
+        calls:
+            - [ setTranslationDomain, [PqrsBundle]]
+            
+    sonata.admin.multiplex:
+        class: PqrsBundle\Admin\MultiplexAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Ingresar Teatros" }
+        arguments:
+            - ~
+            - PqrsBundle\Entity\Multiplex
+            - ~
+        calls:
+            - [ setTranslationDomain, [PqrsBundle]]

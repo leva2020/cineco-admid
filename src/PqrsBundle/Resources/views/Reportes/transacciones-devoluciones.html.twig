@@ -1,0 +1,59 @@
+{% extends 'PqrsBundle::base.html.twig' %}
+{% block title %}Reporte Transacciones Reversiones{% endblock%}
+{% block body %}
+    <div class="reportes-pqrs devoluciones">
+        <legend>Reporte Transacciones Reversiones</legend>
+        {{ form(form) }}
+
+        <div class="boton-exportar">
+            {% if 'EXPORTAR' in permisos %}
+                <a class="pull-right btn" href="{{ path('reporte_archivo_transacciones_devoluciones', {'filtros': filtros }) }}">Exportar</a>
+            {% endif %}
+        </div>
+        <table class="table table-hover">
+            <tr>
+                <td>Tarjeta de crédito</td>
+                <td>Medio de pago</td>
+                <td>Factura Portal</td>
+                <td>Autorización Banco</td>
+                <td>Cliente</td>
+                <td>Tipo y número de documento</td>
+                <td>Estado de compra</td>
+                <td>Fecha transacción</td>
+                <td>Valor total</td>
+                <td>Teatro</td>
+                <td>Pelicula</td>
+                <td>Localidad</td>
+                <td>Fecha función</td>
+                <td>Número de boletas</td>
+            </tr>
+            {% for re in reporte %}
+                <tr>
+                    <td>{{ re.tarjeta_credito }}</td>
+                    <td>{{ re.entidad }}</td>
+                    <td>{{ re.factura }}</td>
+                    <td>{{ re.autorizacion }}</td>
+                    <td>{{ re.nombre_cliente }}</td>
+                    <td>{{ re.tipo_doc ~ ': ' ~ re.cedula }}</td>
+                    <td>{{ re.estado }}</td>
+                    <td>{{ re.fecha_transaccion }}</td>
+                    <td>{{ re.total }}</td>
+                    <td>{{ re.multiplex }}</td>
+                    <td>{{ re.pelicula }}</td>
+                    <td>{{ re.localidad_nombre }}</td>
+                    <td>{{ re.fecha_funcion }}</td>
+                    <td>{{ re.no_boletas }}</td>            
+                </tr> 
+            {% endfor %}
+
+        </table>
+    </div>
+    <div class="paginacion">
+        {{ knp_pagination_render(reporte) }}
+    </div>
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div style="position: relative; padding-top: 50px;" class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% endblock %}

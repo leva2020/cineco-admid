@@ -1,0 +1,11 @@
+{% extends 'PqrsBundle::base.html.twig' %}
+{% block title %}Inicio Sesión PQRS{% endblock%}
+{% block body %}
+    <legend>Ingresa tus datos</legend>
+    {{ form(form) }}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% endblock %}

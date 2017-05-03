@@ -1,0 +1,64 @@
+{% extends 'PqrsBundle::base.html.twig' %}
+{% block title %}Reportes PQRS Respuestas{% endblock%}
+{% block body %}
+    <div class="reportes-pqrs pqrs">
+        <legend>REPORTE PQRS RESPUESTAS</legend>
+        {{ form(form) }}
+        
+        <div class="boton-exportar">
+            {% if 'EXPORTAR' in permisos or 1 in areas or 'ADMIN' in roles %}
+                <a class="pull-right btn" href="{{ path('reporte_archivo_pqrs_fechas', {'filtros': filtros }) }}">Exportar</a>
+            {% endif %}
+        </div>
+        
+        <table class="table table-hover">
+            <tr>
+                <td>Ciudad</td>
+                <td>Nombre Teatro</td>
+                <td>Tipo de Comunicación</td>
+                <td>Area de referencia</td>
+                <td>No. Segerencia</td>
+                <td>Id Contacto</td>
+                <td>Fecha Sugerencia</td>
+                <td>Fecha suceso</td>
+                <td>Pelicula</td>
+                <td>No de Indentificación</td>
+                <td>Usuario</td>
+                <td>E-Mail</td>
+                <td>Motivo</td>
+                <td>Última Respuesta</td>
+                <td>Causa Final</td>
+                <td>Teléfono</td>
+            </tr>
+            {% for key,pq in pqrs %}
+                <tr>
+                    <td>{{datos[pq.id].ciudad}} </td>
+                    <td>{{datos[pq.id].multiplex}}</td>
+                    <td>{{datos[pq.id].tipo_comunicacion}}</td>
+                    <td>
+                        {% for areas in datos[pq.id].nombres_areas  %}
+                            {{ areas }},
+                        {% endfor %}
+                    </td>
+                    <td>{{ loop.index }}</td>                    
+                    <td>{{pq.id}}</td>
+                    <td>{{datos[pq.id].fecha}}</td>
+                    <td>{{datos[pq.id].fechahora}}</td>
+                    <td>{% if pq.pelicula %}{{pq.pelicula}}{% endif %}</td>
+                    <td>{% if pq.documentousuario %}{{pq.documentousuario}}{% endif %}</td>
+                    <td>{% if pq.nombreusuario %}{{pq.nombreusuario}}{% endif %}</td>
+                    <td>{% if pq.correo %}{{pq.correo}}{% endif %}</td>
+                    <td>{% if pq.motivo %}{{pq.motivo}}{% endif %}</td>
+                    <td>{{datos[pq.id].respuesta}}</td>
+                    <td>{{datos[pq.id].causas}}</td>
+                    <td>{% if pq.telefono %}{{pq.telefono}}{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div style="position: relative; padding-top: 50px;" class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% endblock %}

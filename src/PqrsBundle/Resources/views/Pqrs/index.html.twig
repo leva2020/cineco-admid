@@ -1,0 +1,48 @@
+{% extends 'PqrsBundle::base.html.twig' %}
+{% block title %}Lista PQRS{% endblock%}
+{% block body %}
+    <div class="respuestas-pqrs">
+        <legend>Filtros de búsqueda</legend>
+        {{ form(form) }}
+        <table class="table table-hover">
+            <tr>
+                <td>Días transcurridos</td>
+                <td>Id</td>
+                <td>Correo</td>
+                <td>Usuario</td>
+                <td>No. Identificación</td>
+                <td>Estado</td>
+                <td>Tipo</td>
+                <td>Fecha Registro</td>
+                <td>Fecha última modificación</td>
+                <td>Responsable actual</td>
+                <td>Portal</td>
+                <td>Ver Detalle</td>
+            </tr>
+            {% for pq in pqrs %}
+                <tr>
+                    <td class="{{datos[pq.id].color}}">{{datos[pq.id].diasreg}} </td>
+                    <td>{{pq.id}}</td>
+                    <td>{{pq.correo}}</td>
+                    <td>{{pq.nombreusuario}}</td>
+                    <td>{% if pq.documentousuario %}{{pq.documentousuario}}{% endif %}</td>
+                    <td>{{datos[pq.id].estado}}</td>
+                    <td>{{datos[pq.id].tipo_comunicacion}}</td>
+                    <td>{{datos[pq.id].fecha}}</td>
+                    <td>{{datos[pq.id].fecha_mod}}</td>
+                    <td>{{datos[pq.id].area}}</td>
+                    <td>{{datos[pq.id].portal}}</td>
+                    <td><a href="{{ path('pqrs_detalle', {'id': pq.id}) }}"><i class="fa fa-search"></i></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="paginacion">
+        {{ knp_pagination_render(pqrs) }}
+    </div>
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div style="position: relative; padding-top: 50px;" class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% endblock %}

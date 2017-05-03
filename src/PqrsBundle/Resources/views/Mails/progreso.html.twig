@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    </head>
+    <body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+        <table style="margin:0 auto;padding:0;border:0;outline:none;line-height:0;border-collapse:collapse;border-spacing:0; font-family: Arial;" id="Tabla_01" width="680" height="auto" border="0" cellpadding="0" cellspacing="0">
+            <tr style="margin:0;padding:0;border:0;outline:none;line-height:0;border-collapse:collapse;border-spacing:0;">
+                <td style="margin:0;padding:0;border:0;outline:none;line-height:0;border-collapse:collapse;border-spacing:0;">
+                    <a href="http://www.cinecolombia.com" target="_blank">
+                        <img src="http://www.cinecolombia.com/sites/all/themes/cinecolombia_theme/images/header_mail.jpg" width="680" height="100" border="0" alt="Cinecolombia"></a></td>
+            </tr>
+            <tr style="margin:0;padding:0;border:0;outline:none;line-height:0;border-collapse:collapse;border-spacing:0;">
+                <td style="margin:0;padding:0;border:0;outline:none;line-height:0;border-collapse:collapse;border-spacing:0; vertical-align:middel;" bgcolor="#c6c6c6" height="30" align="center" valign="middle">
+                    <h2 style="margin:0; color:#444444; font-size:20px;">{{ titulo }}</h2>
+                </td>
+            </tr>
+            <tr style="margin:0;padding:0;border:0;outline:none;line-height:20px;border-collapse:collapse;border-spacing:0;">
+                <td style="margin:0;padding:0;border:0;outline:none;line-height:1.5;border-collapse:collapse;border-spacing:0;">
+                    <table width="100%">
+                        <tr>
+                            <td style="padding: 10px 30px 30px 30px; line-height:1.5; font-size:16px;color:#444444;">	
+                                <table width="100%">
+                                    <tr><td colspan="1" width="25%">Tipo:</td> <td colspan="3">{{tipo}}</td></tr>
+                                    <tr><td colspan="1" width="25%">Autor:</td> <td colspan="3">{{ autor }}</td></tr>
+                                    <tr><td colspan="1" width="25%">Mensaje:</td> <td colspan="3">{{respuesta|raw}}</td></tr>
+                                    <tr><td colspan="1" width="25%">Adjuntos:</td> <td colspan="3">
+                                            {% for ad in adjuntos %}
+                                                <a href="{{base_url}}/{{ad.url}}" target="_blank">{{base_url}}/{{ad.url}}</a>
+                                            {% endfor %}
+                                        </td></tr>
+                                    <tr><td colspan="4" width="100%" >{{contenido_correo}}</td></tr>
+                                    <tr><td colspan="4" width="100%" >Para consultar el PQRS desde la red privada haga clic <a href="{{ url('pqrs_detalle', {'id': id}) }}">Aquí</a>	</td></tr>	
+                                    <tr><td colspan="4" width="100%" style="color:#444444;font-style:italic;font-size:14px;"></td></tr>
+                                </table>
+                                <p style="color:#444444;font-style:italic;font-size:14px;">Por favor no responda a este correo electrónico.  Este es un mensaje informativo.</p>
+                                <p style="font-weight: bold; margin:0">{{ autor }}</p>
+                                {% for ar in areas %}
+                                    {{ ar }}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    </table>	
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

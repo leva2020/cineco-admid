@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+        <title>Respuesta a su {{tipo}} - {{id}}</title>
+    </head>
+    <body>
+        <table cellspacing="0" cellpadding="0" border="0" align="center" width="650" bgcolor="#eaeaff">
+            <tr>
+
+                <td colspan="4" valign="middle" >
+                    <img alt="Cine Colombia S.A." title="Cine Colombia S.A." src="https://www.cinecolombia.com/sites/all/themes/cinecolombia_theme/mailings/images/header_factura_full.jpg" />
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td height="30px" >
+                    &nbsp;</td>
+                <td colspan="2" valign="middle">
+                    <font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif">
+                        {{tipo}} - {{id}}
+                        <br />
+                        Fecha de registro: {{fecha}}
+                        {#
+                        <br />
+                        <br />
+                        <font color="#000066" size="2" face="Verdana, Arial, Helvetica, sans-serif">
+                            <strong>Estimado(a): {{nombre}} </strong>
+                        </font>#}
+
+                        <br />
+                        <br />
+                        {{ respuesta|raw }}
+                        <br />
+                        {% if adjuntos %}
+                            <p>Adjuntos:</p>
+                            {% for ad in adjuntos %}
+                                <p>
+                                    <a href="{{base_url}}/{{ad.url}}" target="_blank">{{base_url}}/{{ad.url}}</a>
+                                </p>
+                            {% endfor %}
+
+                        {% endif %}
+                    </font>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>        
+            <tr>
+                <td height="30px" >
+                    &nbsp;</td>
+                <td>
+                    {{ texto_recomendacion|raw }}
+                    <font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif">
+                        <p>Reciba un cordial saludo,</p><br />
+                        &nbsp;</font>
+                </td>
+
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td height="30px">
+                    &nbsp;</td>
+                <td colspan="2" valign="middle">
+                    <font color="#000066" size="2" face="Verdana, Arial, Helvetica, sans-serif">
+                        {{ nombre_firma|raw }}
+                        <br />
+                        <br />
+                        <p style="font-weight: bold; margin:0">Cine Colombia S.A.</p><br />
+                        <a target="_blank" href="http://www.cinecolombia.com">http://www.cinecolombia.com</a>
+                    </font>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td height="30px">&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    </body>
+</html>

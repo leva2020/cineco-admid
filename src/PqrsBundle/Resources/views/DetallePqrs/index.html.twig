@@ -1,0 +1,111 @@
+{% extends 'PqrsBundle::base.html.twig' %}
+{% block title %}Detalle pqrs {{pqrs.id}}{% endblock%}
+
+{% block body %}
+    <div class="titulos">
+        <h1>Detalle pqrs {{pqrs.id}}</h1>
+    </div>					
+    <div class="detalle-pqrs">
+        <table class="table table-hover">
+
+            <tr>
+                <td>Tipo:</td><td>{{tipo_comunicacion}}</td>
+                <td>Fecha Creación: </td><td>{{fecha_registro}}</td>
+            </tr>
+            <tr>
+                <td>Area asignada: </td><td>{{area}}</td>
+                <td>Fecha Modificación:</td><td> {{fecha_modificacion}}</td>
+            </tr>
+            <tr>
+                <td>Estado: </td><td>{{estado}}</td>
+                <td>Fecha suceso: </td><td>{{fecha_hora}}</td>
+            </tr>
+            <tr>
+                <td>Nombre:</td><td> {{pqrs.nombreusuario}}</td>
+                <td>Pelicula:</td><td> {{pqrs.pelicula}}</td>
+            </tr>
+            <tr>
+                <td>Correo: </td><td>{{pqrs.correo}}</td>
+                <td>Multiplex: </td><td>{{multiplex}} </td>
+            </tr>
+            <tr>
+                <td>Documento: </td><td>{% if pqrs.documentousuario %} {{pqrs.documentousuario}}{% endif %}</td>
+                <td>Areas de referencia:</td><td>
+                    {% if areas_referencia %}                    
+                        {% for ar in areas_referencia %}
+                            {{ar}},
+                        {% endfor %}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>Teléfono: </td><td>{% if pqrs.telefono %}{{pqrs.telefono}} {% endif %}</td>
+                <td>Ciudad: </td><td>{{ciudad}} </td>
+            </tr>
+            {% if causas %}
+                <tr>
+                    <td>
+                        Causa final: </td><td>{{ causas }}
+                    </td>
+                </tr>
+            {% endif %}                
+        </table>
+
+        {% if adjuntos %}
+            <div class="motivp-pqrs"><span>Archivos Adjuntos:</span>
+                {% for ad in adjuntos %}
+                    <p><a target="_blank" href="{{ad}}">{{ad}}</a></p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="motivp-pqrs"><span>Motivo:</span> {{pqrs.motivo}}</div>
+
+        {% if respuestas %}
+            <h2>Respuestas</h2>
+            <table class="table table-hover">
+                <tr>
+                    <td>id Respuesta</td>
+                    <td>Respuesta</td>
+                    <td>Estado</td>
+                    <td>Nombre Usuario</td>
+                    <td>de</td>
+                    <td>para</td>
+                    <td>Fecha</td>
+                    <td>Consultar</td>
+                </tr>
+                {% for key, res in respuestas %}
+                    <tr>
+                        <td>{{pqrs.id}} - {{respuestas|length - loop.index0}}</td>
+                        <td>{{res.respuesta|raw}}</td>
+                        <td>{{info_res[key].estado}}</td>
+                        <td>{{res.usuario}}</td>
+                        <td>{{info_res[key].area_ant}}</td>
+                        <td>{{info_res[key].area}}</td>
+                        <td>{{res.fecha|date('d - m - Y h:i A')}}</td>
+                        <td><a class="btn btn-primary" data-toggle="modal" onclick="$('#mod-info .modal-body').load('{{ url('pqrs_respuesta_detalle', {'id': res.id}) }}');" data-target="#mod-info"><i class="fa fa-info-circle"></i>Ver</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        <div id="formulario-respuesta"></div>
+        <span><a class="btn btn-primary" href="{{ path('pqrs_respuesta', {'id': pqrs.id}) }}">Nueva Respuesta</a></span>
+    </div>
+    <div class="modal fade" id="mod-info" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="i-circle primary"><i class="fa fa-check"></i></div>
+                        <h4>Cargando..</h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+{% endblock %}

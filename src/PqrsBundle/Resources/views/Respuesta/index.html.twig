@@ -1,0 +1,18 @@
+{% extends 'PqrsBundle::base.html.twig' %}
+{% block title %}
+    Ingresar nueva respuesta {{id}}
+{% endblock%}
+{% block body %}
+    <h3>Ingresar nueva respuesta para la PQRS {{id}}</h3>
+    <div class="formulario">
+        {{ form(form) }}
+    </div>
+    <div class="causas">
+        {% if causas %}
+            <h2>Causas anteriores:</h2>
+            {% for ca in causas %}
+                {{ca}},
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

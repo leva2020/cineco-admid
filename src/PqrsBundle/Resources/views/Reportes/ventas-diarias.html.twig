@@ -1,0 +1,148 @@
+{% extends 'PqrsBundle::base.html.twig' %}
+{% block title %}Reportes Ventas Diarias{% endblock%}
+{% block body %}
+    <div class="reportes-pqrs ventas">
+        <legend>Reportes Ventas Diarias</legend>
+        {{ form(form) }}
+
+        <div class="boton-exportar">
+            {% if 'EXPORTAR' in permisos %}
+                <a class="pull-right btn" href="{{ path('reporte_archivo_ventas_diarias', {'filtros': filtros }) }}">Exportar</a>
+            {% endif %}
+        </div>
+        <table class="table table-hover">
+            <tr>
+                {% if consolidado == false %}
+                    <td>Nombre Teatro</td>
+                {% endif %}
+                <td>Entidad financiera</td>
+                <td>Localidad</td>
+                <td>Tipo transacción</td>
+                <td>Total transacciones</td>
+                <td>Número de boletas</td>
+                <td>Total ingresos cargos suplementarios</td>
+                <td>Total ingreso boletas</td>
+                <td>Total ingreso exhibición</td>
+            </tr>
+            {% for mult in lista_mult %}
+                {% if mult in reporte|keys %}
+                    <div id="ran_{{ mult }}">
+                        {% if consolidado == false %}
+                            <tr>
+                                <td>
+                                    <a onclick="desplega_dato('metodo_{{ mult }}', {{ mult }});">{{ reporte[mult]['info'].multiplex }}</a>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{ reporte[mult]['info']['totales']['total_tran'] }}</td>
+                                <td>{{ reporte[mult]['info']['totales']['no_boletas'] }}</td>
+                                <td>{{ reporte[mult]['info']['totales']['ingresos_suple'] }}</td>
+                                <td>{{ reporte[mult]['info']['totales']['total_ingreso_boletas'] }} </td>
+                                <td>{{ reporte[mult]['info']['totales']['total_ingre'] }}</td>
+                            </tr>                            
+                        {% endif %}
+                        {% for list_entidades in listado_ids_entidades %}
+                            {#{{dump(list_entidades)}}#}
+                            {% if list_entidades in reporte[mult]['det']|keys %}
+                                {#{{dump(reporte[mult]['info']['totales'])}}#}
+                                <tr style="display:{{ estado_consolidado }}" class="nivel_0_{{ mult}} metodo_{{ mult }}">
+                                    {% if consolidado == false %}
+                                        <td></td>
+                                    {% endif %} 
+                                    <td>
+                                        <a onclick="desplega_dato('entidad_{{ list_entidades }}_{{ mult }}', {{ mult }});">
+                                            {{ reporte[mult]['det'][list_entidades].entidad }}
+                                        </a>
+                                    </td>
+                                    <td></td><td></td>
+                                    {% if consolidado == false %}
+                                        <td></td><td></td><td></td><td></td><td></td>
+                                    {% else %}
+                                        <td>{{ reporte[mult][list_entidades]['info_consolidado']['totales']['total_tran'] }}</td>
+                                        <td>{{ reporte[mult][list_entidades]['info_consolidado']['totales']['no_boletas'] }}</td>
+                                        <td>{{ reporte[mult][list_entidades]['info_consolidado']['totales']['ingresos_suple'] }}</td>
+                                        <td>{{ reporte[mult][list_entidades]['info_consolidado']['totales']['total_ingreso_boletas'] }} </td>
+                                        <td>{{ reporte[mult][list_entidades]['info_consolidado']['totales']['total_ingre'] }}</td>
+                                    {% endif %}                                    
+                                </tr>
+                                {% for list_localidad in listado_localidades %}
+                                    {% if list_localidad in reporte[mult]['det'][list_entidades]|keys %}
+                                        
+                                        
+                                        <tr style="display:none" class="nivel_1_{{ mult}} entidad_{{ list_entidades }}_{{ mult }}">
+                                            {% if consolidado == false %}
+                                                <td></td>
+                                            {% endif %}
+                                            <td></td>
+                                            <td><a onclick="desplega_dato('localidad_{{ list_localidad }}_{{ list_entidades }}_{{ mult }}', {{ mult }});">{{ reporte[mult]['det'][list_entidades][list_localidad].localidad }}</a></td>
+                                            <td></td><td></td><td></td><td></td><td></td><td></td>
+                                        </tr>
+                                        {% for list_compra in listado_tipo_compra %}
+                                            {% if list_compra in reporte[mult]['det'][list_entidades][list_localidad]|keys %}                                                
+                                                {% set det_total_tran = '0' %}
+                                                {% set det_total_boletas = '0' %}
+                                                {% set det_sup = '0' %}
+                                                {% set det_boletas = '0' %}
+                                                {% set det_exhi = '0' %}
+                                                {% for detalle in reporte[mult]['det'][list_entidades][list_localidad][list_compra] %}
+                                                    {% set det_total_tran = det_total_tran + detalle.detalle.total_tran %}
+                                                    {% set det_total_boletas = det_total_boletas + detalle.detalle.no_boletas %}
+                                                    {% set det_sup = det_sup + detalle.detalle.ingresos_suple_sin %}
+                                                    {% set det_boletas = det_boletas + detalle.detalle.ingreso_boletas_sin %}
+                                                    {% set det_exhi = det_exhi + detalle.detalle.total_ingre_sin %}
+                                                {% endfor %}
+
+                                                <tr style="display:none" class="nivel_2_{{ mult}} localidad_{{ list_localidad }}_{{ list_entidades }}_{{ mult }}">
+                                                    {% if consolidado == false %}
+                                                        <td></td>
+                                                    {% endif %}
+                                                    <td></td>
+                                                    <td></td>                                                
+                                                    {% if list_compra == 1 %}
+                                                        <td>
+                                                            <a href="javascript:void(0);" onclick="desplega_dato('compra_{{ list_localidad }}_{{ list_entidades }}_{{ list_compra }}_{{ mult }}', {{ mult }});">Compra</a>
+                                                        </td>
+                                                    {% elseif list_compra == 2 %}
+                                                        <td>
+                                                            <a href="javascript:void(0);" onclick="desplega_dato('compra_{{ list_localidad }}_{{ list_entidades }}_{{ list_compra }}_{{ mult }}', {{ mult }});">Reserva</a>
+                                                        </td>
+                                                    {% endif %}
+                                                    <td>{{ det_total_tran }}</td>
+                                                    <td>{{ det_total_boletas }}</td>
+                                                    <td>{{ det_sup|number_format(2, '.', ',') }}</td>
+                                                    <td>{{ det_boletas|number_format(2, '.', ',') }}</td>
+                                                    <td>{{ det_exhi|number_format(2, '.', ',') }}</td>
+                                                </tr>
+                                                {% for detalle in reporte[mult]['det'][list_entidades][list_localidad][list_compra] %}
+                                                    <tr style="display:none" class="nivel_3_{{ mult}} compra_{{ list_localidad }}_{{ list_entidades }}_{{ list_compra }}_{{ mult }}">
+                                                        {% if consolidado == false %}
+                                                            <td></td>
+                                                        {% endif %}
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>{{ detalle.detalle.total_tran }}</td>
+                                                        <td>{{ detalle.detalle.no_boletas }}</td>
+                                                        <td>{{ detalle.detalle.ingresos_suple }}</td>
+                                                        <td>{{ detalle.detalle.ingreso_boletas }}</td>
+                                                        <td>{{ detalle.detalle.total_ingre }}</td>                                                
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </div> 
+                {% endif %}
+            {% endfor %} 
+        </table>
+    </div>
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div style="position: relative; padding-top: 50px;" class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'PqrsBundle::base.html.twig' %}
+{% block title %}Reportes Transacciones Banco{% endblock%}
+{% block body %}
+    <div class="reportes-pqrs transacciones">
+        <legend>Reportes Transacciones Banco</legend>
+        {{ form(form) }}
+
+        <div class="boton-exportar">
+            {% if 'EXPORTAR' in permisos %}
+                <a class="pull-right btn" href="{{ path('reporte_archivo_transacciones_banco', {'filtros': filtros }) }}">Exportar</a>
+            {% endif %}
+        </div>
+        <table class="table table-hover">
+            <tr>
+                <td>Nombre Teatro</td>
+                <td>Entidad Financiera</td>
+                <td>Factura</td>
+                <td>Autorización Banco</td>
+                <td>Número de Auditoria</td>
+                <td>Estado Transacción</td>
+                <td>Tipo de Transacción</td>
+                <td>Cédula del cliente</td>
+                <td>Nombre del cliente</td>
+                <td>Fecha y hora de Transacción</td>
+                <td>Valor boletas</td>
+                <td>Valor cargos</td>
+                <td>Total transacción</td>
+                <td>Función ID</td>
+                <td>Pelicula Nombre</td>
+                <td>Sala</td>
+                <td>Localidad</td>
+                <td>Sillas</td>
+                <td>Fecha y hora Función</td>
+                <td>Número de boletas</td>
+                <td>Respuesta del Banco</td>
+                <td>Origen</td>
+                <td>Fecha de cierre</td>
+                <td>Fecha Modificación</td>
+                <td>Usuario Modificación</td>
+            </tr>
+            {% for re in reporte %}
+                <tr>
+                    <td>{{ re.multiplex }}</td>
+                    <td>{{ re.entidad }}</td>
+                    <td>{{ re.factura }}</td>
+                    <td>{{ re.autorizacion }}</td>
+                    <td>{{ re.auditoria }}</td>
+                    <td>{{ re.estado }}</td>
+                    <td>{{ re.tipo_transaccion }}</td>
+                    <td>{{ re.cedula }}</td>
+                    <td>{{ re.nombre_cliente }}</td>
+                    <td>{{ re.fecha_transaccion }}</td>
+                    <td>{{ re.valor_boletas }}</td>
+                    <td>{{ re.valor_cargos }}</td>
+                    <td>{{ re.total }}</td>
+                    <td>{{ re.funcion_id }}</td>
+                    <td>{{ re.pelicula }}</td>
+                    <td>{{ re.sala }}</td>
+                    <td>{{ re.localidad_nombre }}</td>
+                    <td>{{ re.sillas }}</td>
+                    <td>{{ re.fecha_funcion }}</td>
+                    <td>{{ re.no_boletas }}</td>
+                    <td>{{ re.respuesta }}</td>
+                    <td>{{ re.origen }}</td>
+                    <td>{{ re.fecha_cierre }}</td>
+                    <td>{{ re.fecha_modificacion }}</td>
+                    <td>{{ re.usuario_modificacion }}</td>
+                </tr> 
+            {% endfor %}
+
+        </table>
+    </div>
+    <div class="paginacion">
+        {{ knp_pagination_render(reporte) }}
+    </div>
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div style="position: relative; padding-top: 50px;" class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% endblock %}
