@@ -1,0 +1,5 @@
+_assetic:
+    resource: .
+    type: assetic
+_app:
+    resource: /Users/Eduardo/Documents/sitios/pqrs/cine-colombia.admin/app/config/routing_dev.yml

@@ -1,0 +1,22 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+
+#    database_host: 192.168.100.35
+#    database_port: '3306'
+#    database_name: cineco_admin
+#    database_user: usradminapps
+#    database_password: _4pps2015_!XCsi$
+    
+    database_host: localhost
+    database_port: '3306'
+    database_name: pqrs_cineco  
+    database_user: root
+    database_password: root
+
+    locale: es
+    secret: 0235e17ae65048a62e362cb0da9e0c282cf8f13e
+    mailer_transport: smtp
+    mailer_host: email-smtp.us-east-1.amazonaws.com
+    mailer_user: AKIAJJZNT3UDERB4OAJQ
+    mailer_password: AsnRsbsCyJJQ/YExdZnVN5lIhir0muuGB9S3kf96r/N7
